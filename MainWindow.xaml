@@ -1,0 +1,24 @@
+﻿<Window x:Name="mainWindow" x:Class="FileClassifier.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="File Classifier" Height="600" Width="1303" ResizeMode="NoResize" Icon="App.ico">
+    <Grid Name="grid1">
+
+        <WindowsFormsHost x:Name="mediaPreview" Margin="0,56,644,0"/>
+        <TextBox x:Name="path" HorizontalAlignment="Left" Height="23" Margin="44,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="389"/>
+        <Button x:Name="browseForPath" Content="Browse..." HorizontalAlignment="Left" Margin="440,5,0,0" VerticalAlignment="Top" Width="62" Click="browse"/>
+        <Label Content="Path:" HorizontalAlignment="Left" Height="28" Margin="0,3,0,0" VerticalAlignment="Top" Width="44"/>
+        <Button x:Name="workOnPath" Content="OK" HorizontalAlignment="Left" Margin="510,5,0,0" VerticalAlignment="Top" Width="51" Click="fetchFiles">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <TextBox x:Name="description" HorizontalAlignment="Left" Height="23" Margin="732,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="482" KeyUp="description_KeyUp"/>
+        <Label Content="Description:" HorizontalAlignment="Left" Height="28" Margin="653,5,0,0" VerticalAlignment="Top" Width="73"/>
+        <Label x:Name="counter" Content="0/0" HorizontalAlignment="Left" Height="43" Margin="576,0,0,0" VerticalAlignment="Top" Width="77" FontSize="18" FontWeight="Bold"/>
+        <Image x:Name="preview" HorizontalAlignment="Left" Height="507" Margin="658,56,0,0" VerticalAlignment="Top" Width="620"/>
+        <Button x:Name="submitDescription" Content="Submit" HorizontalAlignment="Left" Margin="1226,6,0,0" VerticalAlignment="Top" Width="57" Click="submit" IsDefault="True"/>
+        <Label x:Name="currentFileLabel" Content="Current File:" HorizontalAlignment="Left" Height="43" Margin="3,26,0,0" VerticalAlignment="Top" Width="118" FontSize="18" FontWeight="Bold"/>
+        <Label x:Name="currentFileGUIBox" Content="" HorizontalAlignment="Left" Height="43" Margin="126,26,0,0" VerticalAlignment="Top" Width="1161" FontSize="18" FontWeight="Bold"/>
+    </Grid>
+</Window>
