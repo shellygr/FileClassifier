@@ -97,7 +97,7 @@ namespace FileClassifier
             calcNumOfRelevantFiles();
             outputFilename = path.Text + "\\folderDescription_" + DateTime.Now.ToString("dd_MM_yyyy_hh_mm");
 
-            counter.Content = currentFileNumberWorkingOn + "/" + numOfRelevantFiles;
+            counter.Content = currentFileNumberWorkingOn+1 + "/" + numOfRelevantFiles;
 
             if (numOfRelevantFiles == 0)
             {
@@ -105,12 +105,19 @@ namespace FileClassifier
                 return;
             }
 
+            currentFileNumberWorkingOn = 0;          
+
             workOnCurrentFile();
             //MessageBox.Show(outputFilename, "path", MessageBoxButton.OK);
         }
         
         private void workOnCurrentFile()
         {
+            if (currentFileNumberWorkingOn > numOfRelevantFiles)
+            {
+                return;
+            }
+
             currentFile = files[currentFileNumberWorkingOn];
             currentFileGUIBox.Content = currentFile;
             description.Focus();
