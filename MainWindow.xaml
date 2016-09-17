@@ -17,12 +17,13 @@
                 <DropShadowEffect/>
             </Button.Effect>
         </Button>
-        <TextBox x:Name="description" HorizontalAlignment="Left" Height="23" Margin="73,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="482" KeyUp="description_KeyUp" Grid.Column="1" />
+        <TextBox x:Name="description" HorizontalAlignment="Left" Height="23" Margin="73,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="482" KeyUp="description_KeyUp" Grid.Column="1" TextAlignment="Right" />
         <Label Content="Description:" HorizontalAlignment="Left" Height="28" Margin="0,5,0,0" VerticalAlignment="Top" Width="73" Grid.Column="1"/>
         <Image x:Name="preview" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" Stretch="UniformToFill" Grid.Column="1" />
         <Button x:Name="submitDescription" Content="Submit" HorizontalAlignment="Left" Margin="571,6,0,0" VerticalAlignment="Top" Width="57" Click="submit" IsDefault="True"  Height="22" Grid.Column="1" />
         <Label x:Name="currentFileLabel" Content="Current File:" HorizontalAlignment="Left" Height="43" Margin="3,26,0,0" VerticalAlignment="Top" Width="118" FontSize="18" FontWeight="Bold"/>
         <Label x:Name="currentFileGUIBox" Content="" HorizontalAlignment="Left" Height="43" Margin="126,26,0,0" VerticalAlignment="Top" Width="1161" FontSize="18" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <Label x:Name="counter" Content="0/0" HorizontalAlignment="Left" Height="43" Margin="576,0,0,0" VerticalAlignment="Top" Width="77" FontSize="18" FontWeight="Bold"/>
+        <ComboBox x:Name="lastDescs" ItemsSource="{Binding Path=lastDescriptionTexts}" Grid.Column="1" HorizontalAlignment="Left" Height="19" Margin="73,33,0,0" VerticalAlignment="Top" Width="482" SelectionChanged="ComboBox_SelectionChanged_1"/>
     </Grid>
 </Window>

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,14 +20,30 @@ namespace FileClassifier
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         string[] files;
         int numOfRelevantFiles;
         string currentFile;
         int currentFileNumberWorkingOn = 0;
         string outputFilename;
-        string lastDescriptionText;
+
+        private ObservableCollection<string> lastDescTexts;
+        public ObservableCollection<string> lastDescriptionTexts
+        {
+            get
+            {
+                return lastDescTexts;
+            }
+            set
+            {
+                lastDescTexts = value;
+                NotifyPropertyChanged("lastDescriptionTexts"); // method implemented below
+            }
+        }
+
+        int currentDescHistoryIdx = 0;
+       
 
         string[] mediaExtensions = { "mp3", "mp4", "wav", "3ga", "avi", "flv", "wmv", "wma", "flac" };
         string[] imageExtensions = { "jpg", "jpeg", "gif", "bmp", "png" };
@@ -34,9 +52,13 @@ namespace FileClassifier
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             mediaPreview.Child = vlcPlayer;
             path.Text = "C:\\Users\\";
+            lastDescriptionTexts = new ObservableCollection<string>();
         }
+
+
 
         private void browse(object sender, RoutedEventArgs e)
         {
@@ -83,7 +105,7 @@ namespace FileClassifier
                 }
                 else
                 {
-                    MessageBox.Show("Extension" + ext + " is not relevant", "Extension not relevant", MessageBoxButton.OK);
+                    System.Windows.MessageBox.Show("Extension" + ext + " is not relevant", "Extension not relevant", MessageBoxButton.OK);
                 }
             }
 
@@ -101,7 +123,7 @@ namespace FileClassifier
 
             if (numOfRelevantFiles == 0)
             {
-                MessageBox.Show("Nothing to work on - no relevant files", "Error");
+                System.Windows.MessageBox.Show("Nothing to work on - no relevant files", "Error");
                 return;
             }
 
@@ -113,7 +135,7 @@ namespace FileClassifier
         
         private void workOnCurrentFile()
         {
-            if (currentFileNumberWorkingOn > numOfRelevantFiles)
+            if (currentFileNumberWorkingOn >= numOfRelevantFiles)
             {
                 return;
             }
@@ -151,12 +173,13 @@ namespace FileClassifier
                 ++currentFileNumberWorkingOn;
             }
 
-            lastDescriptionText = description.Text;
+            lastDescriptionTexts.Add(description.Text);
             description.Text = "";
+            currentDescHistoryIdx = lastDescriptionTexts.Count;
 
             if (currentFileNumberWorkingOn > numOfRelevantFiles)
             {
-                MessageBox.Show("Done!\nChoose another folder.", "FileClassifier");
+                System.Windows.MessageBox.Show("Done!\nChoose another folder.", "FileClassifier");
                 return;
             }
 
@@ -165,11 +188,40 @@ namespace FileClassifier
         }
 
         // TODO: full history
-        private void description_KeyUp(object sender, KeyEventArgs e)
+        private void description_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key.Equals(Key.Up))
             {
-                description.Text = lastDescriptionText;
+                if (currentDescHistoryIdx <= lastDescriptionTexts.Count && currentDescHistoryIdx > 0)
+                {
+                    description.Text = lastDescriptionTexts[--currentDescHistoryIdx];
+                }
+            }
+
+            if (e.Key.Equals(Key.Down))
+            {
+                if (currentDescHistoryIdx < lastDescriptionTexts.Count && currentDescHistoryIdx >= 0)
+                {
+                    description.Text = lastDescriptionTexts[currentDescHistoryIdx++];
+                }
+            }
+        }
+
+        private void ComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (lastDescs.SelectedItem != null)
+            {
+                 description.Text = (string)lastDescs.SelectedValue;
+            }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
     }
